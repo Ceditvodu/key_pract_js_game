@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+
+<div class="wrap">
+   <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+  </canvas>
+<h1>Controls</h1>
+  <div id="con"></div>
+</div>
+	
+</body>
+</html>
+
+
+<script>
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+var gy = 0;
+var gxflag = false;
+var gxdown = false;
+var gxup = false;
+var gx = 2;
+var keymap = [];
+var keyflag = false;
+
+function hero(x, y) {
+  this.x = c.height - 2 - x;
+  this.y = y;
+  this.render = function(x, y) {
+    ctx.fillStyle = "#FFf";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(this.y, this.x, 2, 2);
+  }
+  this.setxy = function(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+  this.getx = function() {
+    return this.x;
+  }
+  this.gety = function() {
+    return this.y;
+  }
+}
+s = new hero(0, 0);
+
+
+
+//key press
+function plus(char) {
+  if (char == 65) {
+    gy--;
+  } else if (char == 68) {
+    gy++;
+  } else if (char == 87) {
+    gxflag = true;
+    gxup = true;
+  }
+  return 
+}
+
+function myKeyPress(e) {
+
+  var keynum;
+
+  if (window.event) { // IE         
+    keynum = e.keyCode;
+  } else
+  if (e.which) { // Netscape/Firefox/Opera          
+    keynum = e.which;
+  }
+  plus(String.fromCharCode(keynum));
+}
+
+var k = new keywatcher();
+
+
+
+window.onkeydown = k.myKeyDown;
+window.onkeyup = k.myKeyUp;
+window.onload = loop;
+
+
+
+
+function keywatcher(){
+  this.keymap = [];
+  this.keyflag = false;
+
+  function keyadd(key) {
+    if (this.keymap.length == 0) {
+      this.keymap.push(key);
+    } else {
+      for (i = 0; i <= this.keymap.length; i++) {
+        if (this.keymap[i] == key) {
+          this.keyflag = true;
+        }
+      }
+      if (this.keyflag == false) {
+        this.keymap.push(key);
+        //alert(this.keymap[1]);
+      }
+      this.keyflag = false;
+    }
+    //alert(this.keymap[0]);
+  }
+
+  function keyremove(key) {
+    for (i = 0; i <= this.keymap.length; i++) {
+      if (this.keymap[i] == key) {
+        this.keymap.splice(i, 1);
+      }
+    }
+  }
+
+  this.myKeyDown = function(e)  {
+    var keynum;
+    if (window.event) { // IE         
+      keynum = e.keyCode;
+    } else
+    if (e.which) { // Netscape/Firefox/Opera          
+      keynum = e.which;
+    }
+    keyadd(keynum);
+    //alert(keynum);
+  }
+
+  this.myKeyUp = function(e) {
+    var keynum;
+    if (window.event) { // IE         
+      keynum = e.keyCode;
+    } else
+    if (e.which) { // Netscape/Firefox/Opera          
+      keynum = e.which;
+    }
+    keyremove(keynum);
+  }
+
+  this.getButtons = function(){
+    //alert(this.keyflag);
+    return this.keymap.join(',');
+
+  }
+}
+//alert(k.keymap[0]);
+
+function loop() {
+  var keymass = k.getButtons();
+  document.getElementById('con').innerHTML = keymass;
+
+  if(keymass.length){
+      for (i = 0; i <= keymass.length; i++) {
+        plus(keymass[i]);
+      }    
+  }
+
+  //document.getElementById('con').innerHTML = keymap.join() + " ";
+  //dmyKeyPress(1);
+  if (gxflag == true){
+    if((gxup == true)&&(gx<40)){
+      gx = gx + 1;
+      if(gx >= 40){
+        gxdown = true;
+        gxup= false;
+      }
+    }else if(gxdown == true){
+      gx= gx - 1;
+      if(gx <= 2){
+        gxup = false;
+        gxdown = false;
+      }
+      
+      
+    }else{
+      gxflag = false;
+      gxdown = false;
+      
+    }
+
+    
+  }
+  s.setxy(c.height - gx, gy);
+  s.render();
+  setTimeout(loop, 10);
+}
+
+// function keyadd(key) {
+//   if (keymap.length == 0) {
+//     keymap.push(key);
+//   } else {
+//     for (i = 0; i <= keymap.length; i++) {
+//       if (keymap[i] == key) {
+//         keyflag = true;
+//       }
+//     }
+//     if (keyflag == false) {
+//       keymap.push(key);
+//     }
+//     keyflag = false;
+//   }
+// }
+
+// function keyremove(key) {
+//   for (i = 0; i <= keymap.length; i++) {
+//     if (keymap[i] == key) {
+//       keymap.splice(i, 1);
+//     }
+//   }
+// }
+
+// function myKeyDown(e) {
+//   var keynum;
+//   if (window.event) { // IE         
+//     keynum = e.keyCode;
+//   } else
+//   if (e.which) { // Netscape/Firefox/Opera          
+//     keynum = e.which;
+//   }
+//   keyadd(keynum);
+// }
+
+// function myKeyUp(e) {
+//   var keynum;
+//   if (window.event) { // IE         
+//     keynum = e.keyCode;
+//   } else
+//   if (e.which) { // Netscape/Firefox/Opera          
+//     keynum = e.which;
+//   }
+//   keyremove(keynum);
+// }
+
+
+
+
+
+</script>
