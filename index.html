@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+  <meta charset="UTF-8">
+  <title>Document</title>
 </head>
 <body>
 
@@ -13,7 +13,7 @@
 <h1>Controls</h1>
   <div id="con"></div>
 </div>
-	
+  
 </body>
 </html>
 
@@ -92,31 +92,31 @@ window.onload = loop;
 
 
 function keywatcher(){
-  this.keymap = [];
-  this.keyflag = false;
+  //this.keymap = [];
+  //this.keyflag = false;
 
   function keyadd(key) {
-    if (this.keymap.length == 0) {
-      this.keymap.push(key);
+    if (keymap.length == 0) {
+      keymap.push(key);
     } else {
-      for (i = 0; i <= this.keymap.length; i++) {
-        if (this.keymap[i] == key) {
+      for (i = 0; i <= keymap.length; i++) {
+        if (keymap[i] == key) {
           this.keyflag = true;
         }
       }
       if (this.keyflag == false) {
-        this.keymap.push(key);
-        //alert(this.keymap[1]);
+        keymap.push(key);
+        //alert(keymap[1]);
       }
       this.keyflag = false;
     }
-    //alert(this.keymap[0]);
+    //alert(keymap[0]);
   }
 
   function keyremove(key) {
-    for (i = 0; i <= this.keymap.length; i++) {
-      if (this.keymap[i] == key) {
-        this.keymap.splice(i, 1);
+    for (i = 0; i <= keymap.length; i++) {
+      if (keymap[i] == key) {
+        keymap.splice(i, 1);
       }
     }
   }
@@ -146,7 +146,7 @@ function keywatcher(){
 
   this.getButtons = function(){
     //alert(this.keyflag);
-    return this.keymap.join(',');
+    return keymap.join(',');
 
   }
 }
@@ -156,9 +156,9 @@ function loop() {
   var keymass = k.getButtons();
   document.getElementById('con').innerHTML = keymass;
 
-  if(keymass.length){
-      for (i = 0; i <= keymass.length; i++) {
-        plus(keymass[i]);
+  if(keymap.length){
+      for (i = 0; i <= keymap.length; i++) {
+        plus(keymap[i]);
       }    
   }
 
@@ -192,51 +192,6 @@ function loop() {
   setTimeout(loop, 10);
 }
 
-// function keyadd(key) {
-//   if (keymap.length == 0) {
-//     keymap.push(key);
-//   } else {
-//     for (i = 0; i <= keymap.length; i++) {
-//       if (keymap[i] == key) {
-//         keyflag = true;
-//       }
-//     }
-//     if (keyflag == false) {
-//       keymap.push(key);
-//     }
-//     keyflag = false;
-//   }
-// }
-
-// function keyremove(key) {
-//   for (i = 0; i <= keymap.length; i++) {
-//     if (keymap[i] == key) {
-//       keymap.splice(i, 1);
-//     }
-//   }
-// }
-
-// function myKeyDown(e) {
-//   var keynum;
-//   if (window.event) { // IE         
-//     keynum = e.keyCode;
-//   } else
-//   if (e.which) { // Netscape/Firefox/Opera          
-//     keynum = e.which;
-//   }
-//   keyadd(keynum);
-// }
-
-// function myKeyUp(e) {
-//   var keynum;
-//   if (window.event) { // IE         
-//     keynum = e.keyCode;
-//   } else
-//   if (e.which) { // Netscape/Firefox/Opera          
-//     keynum = e.which;
-//   }
-//   keyremove(keynum);
-// }
 
 
 
