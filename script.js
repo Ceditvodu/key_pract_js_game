@@ -136,7 +136,7 @@ function loop() {
   for( i =0; i <= keymap.length; i++){
     keychar[i] = String.fromCharCode(keymap[i]);
   }
-  document.getElementById('con').innerHTML = keychar.join() + " ";
+  document.getElementById('con').innerHTML = keychar.join(' ');
 
   // jump logic
   if (gxflag == true){
