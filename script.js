@@ -4,18 +4,28 @@ var ctx = c.getContext("2d");
 
 // other variebles
 // coordinates
-var gy = 0;
+var gy = 0; // ->
 var gxflag = false;
 var gxdown = false;
 var gxup = false;
-var gx = 2;
+var gx = 2; // ^
 
 // result massive variebles
 var keymap = [];
 var keychar =[];
 var keyflag = false;
 
-var collisionmap = [];
+var collisionmapGY = [];
+var collisionmapGX = [];
+
+for(i = 0; i <= c.width; i++){
+  collisionmapGY.push(i);
+  collisionmapGX.push(2);
+
+}
+
+
+
 
 
 
@@ -146,6 +156,7 @@ function loop() {
   }
   document.getElementById('con').innerHTML = keychar.join(' ');
 
+
   // jump logic
   if (gxflag == true){
     if((gxup == true)&&(gx<40)){
@@ -164,6 +175,14 @@ function loop() {
       gxflag = false;
       gxdown = false;
     }
+  }
+
+  // collision map detection 
+  for(i=0; i <= collisionmapGY.length; i++){
+    if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
+      document.getElementById('con').innerHTML = "fire";      
+    }
+
   }
 
   // hero  setting acception
