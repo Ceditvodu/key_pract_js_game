@@ -210,4 +210,4 @@ var k = new keywatcher();
 // initialithing of event listeners 
 window.onkeydown = k.myKeyDown;
 window.onkeyup = k.myKeyUp;
-window.onload = loop;
+window.onload = loop; 
