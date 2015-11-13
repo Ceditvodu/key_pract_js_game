@@ -8,7 +8,8 @@ var gy = 0; // ->
 var gxflag = false;
 var gxdown = false;
 var gxup = false;
-var gx = 2; // ^
+var floor = 4;
+var gx = floor; // ^
 
 // result massive variebles
 var keymap = [];
@@ -20,8 +21,7 @@ var collisionmapGX = [];
 
 for(i = 0; i <= c.width; i++){
   collisionmapGY.push(i);
-  collisionmapGX.push(2);
-
+  collisionmapGX.push(floor);
 }
 
 
@@ -31,7 +31,7 @@ for(i = 0; i <= c.width; i++){
 
 //main charecter ckass
 function hero(x, y) {
-  this.x = c.height - 2 - x;
+  this.x = c.height - floor - x;
   this.y = y;
 
   // render of cherecter
@@ -69,9 +69,12 @@ function plus(char) {
     gy++;
   } else if (char == 87) {
     gxflag = true;
-    if(gx == 2){
-      gxup = true;      
-    }
+      for(i=0; i <= collisionmapGY.length; i++){
+        if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
+          gxup = true;      
+        }
+      }
+
   }
   return 
 }
@@ -137,8 +140,6 @@ function keywatcher(){
 
 // main game loop
 function loop() {
-
-  // fall 
    
   // reading all button codes 
   // from array and macking an 
@@ -167,9 +168,11 @@ function loop() {
       }
     }else if(gxdown == true){
       gx= gx - 1;
-      if(gx <= 2){
-        gxup = false;
-        gxdown = false;
+      for(i=0; i <= collisionmapGY.length; i++){
+        if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
+          gxup = false;
+          gxdown = false;      
+        }
       }
     }else{
       gxflag = false;
@@ -177,18 +180,25 @@ function loop() {
     }
   }
 
+ 
+
   // collision map detection 
   for(i=0; i <= collisionmapGY.length; i++){
     if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
       document.getElementById('con').innerHTML = "fire";      
     }
-
   }
 
   // hero  setting acception
   // and render
   s.setxy(c.height - gx, gy);
   s.render();
+
+  //collision map drawing
+  for(i=0; i <= collisionmapGY.length; i++){
+      ctx.fillStyle = "#00ff00";
+      ctx.fillRect(collisionmapGY[i], c.height + 2 - collisionmapGX[i], 2, 2);  
+  } 
 
   setTimeout(loop, 10);
 }
@@ -201,5 +211,3 @@ var k = new keywatcher();
 window.onkeydown = k.myKeyDown;
 window.onkeyup = k.myKeyUp;
 window.onload = loop;
-
-
