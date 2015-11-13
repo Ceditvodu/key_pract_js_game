@@ -15,6 +15,10 @@ var keymap = [];
 var keychar =[];
 var keyflag = false;
 
+var collisionmap = [];
+
+
+
 //main charecter ckass
 function hero(x, y) {
   this.x = c.height - 2 - x;
@@ -55,7 +59,9 @@ function plus(char) {
     gy++;
   } else if (char == 87) {
     gxflag = true;
-    gxup = true;
+    if(gx == 2){
+      gxup = true;      
+    }
   }
   return 
 }
@@ -121,6 +127,8 @@ function keywatcher(){
 
 // main game loop
 function loop() {
+
+  // fall 
    
   // reading all button codes 
   // from array and macking an 
