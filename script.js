@@ -24,11 +24,6 @@ for(i = 0; i <= c.width; i++){
   collisionmapGX.push(floor);
 }
 
-
-
-
-
-
 //main charecter ckass
 function hero(x, y) {
   this.x = c.height - floor - x;
