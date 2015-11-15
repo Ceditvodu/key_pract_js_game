@@ -10,18 +10,41 @@ var gxdown = false;
 var gxup = false;
 var floor = 4;
 var gx = floor; // ^
+var jumphigh = 40;
+var altitude = floor;
 
 // result massive variebles
 var keymap = [];
 var keychar =[];
 var keyflag = false;
+var keyfallflag = false;
+var downflag = 0;
 
 var collisionmapGY = [];
 var collisionmapGX = [];
+var withoutcol = [];
+var consol = [];
 
+// Floor map
 for(i = 0; i <= c.width; i++){
   collisionmapGY.push(i);
   collisionmapGX.push(floor);
+  withoutcol.push(i+''+floor);
+}
+
+// Panel1 map
+for(i = 20; i <= 50; i++){
+  collisionmapGY.push(i);
+  collisionmapGX.push(20);
+  withoutcol.push(i+''+20);
+
+}
+// Panel2 map
+for(i = 20; i <= 50; i++){
+  collisionmapGY.push(i);
+  collisionmapGX.push(50);
+  withoutcol.push(i+''+50);
+
 }
 
 //main charecter ckass
@@ -150,14 +173,23 @@ function loop() {
   for( i =0; i <= keymap.length; i++){
     keychar[i] = String.fromCharCode(keymap[i]);
   }
-  document.getElementById('con').innerHTML = keychar.join(' ');
-
 
   // jump logic
-  if (gxflag == true){
-    if((gxup == true)&&(gx<40)){
+  // falling down logic
+  for(i=0; i <= collisionmapGY.length; i++){
+    if(withoutcol[i] == gy+''+gx){
+      downflag++;   
+    }
+  }
+  if(downflag == 0){
+    gxdown = true;
+    gxflag = true;
+  }
+  // exactli jumping
+  if ((gxflag == true)||(keyfallflag == true)){
+    if((gxup == true)&&(gx< altitude + jumphigh)){
       gx = gx + 1;
-      if(gx >= 40){
+      if(gx >= (altitude +  jumphigh)){
         gxdown = true;
         gxup= false;
       }
@@ -166,7 +198,8 @@ function loop() {
       for(i=0; i <= collisionmapGY.length; i++){
         if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
           gxup = false;
-          gxdown = false;      
+          gxdown = false;  
+          altitude  = gx;    
         }
       }
     }else{
@@ -174,13 +207,15 @@ function loop() {
       gxdown = false;
     }
   }
+  // falling flag clearer
+  downflag = 0;
 
- 
+
 
   // collision map detection 
   for(i=0; i <= collisionmapGY.length; i++){
     if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
-      document.getElementById('con').innerHTML = "fire";      
+      //document.getElementById('con').innerHTML =collisionmapGY[i]+ ' '+ collisionmapGX[i] + ' ' +gy+''+gx;   
     }
   }
 
