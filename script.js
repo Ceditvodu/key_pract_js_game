@@ -19,6 +19,7 @@ var keychar =[];
 var keyflag = false;
 var keyfallflag = false;
 var downflag = 0;
+var jumpstart = 0;
 
 var collisionmapGY = [];
 var collisionmapGX = [];
@@ -46,6 +47,15 @@ for(i = 20; i <= 50; i++){
   withoutcol.push(i+''+50);
 
 }
+
+// Panel3 map
+for(i = 40; i <= 70; i++){
+  collisionmapGY.push(i);
+  collisionmapGX.push(70);
+  withoutcol.push(i+''+70);
+
+}
+
 
 //main charecter ckass
 function hero(x, y) {
@@ -87,11 +97,18 @@ function plus(char) {
     gy++;
   } else if (char == 87) {
     gxflag = true;
-      for(i=0; i <= collisionmapGY.length; i++){
-        if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
-          gxup = true;      
-        }
-      }
+    // if(downflag == 1){
+    //   jumpstart = 1;
+    // }
+    if((gx == altitude)&&(jumpstart == 0)){
+      gxup = true;
+    }
+    
+      // for(i=0; i <= collisionmapGY.length; i++){
+      //   if((collisionmapGY[i] == gy)&&(collisionmapGX[i] == gx)){
+      //     gxup = true;      
+      //   }
+      // }
 
   }
   return 
@@ -177,13 +194,16 @@ function loop() {
   // jump logic
   // falling down logic
   for(i=0; i <= collisionmapGY.length; i++){
-    if(withoutcol[i] == gy+''+gx){
+    if((withoutcol[i] == gy+''+gx)){
       downflag++;   
+    }else if((collisionmapGY[i] == gy)) {
+      //downflag++; 
     }
   }
-  if(downflag == 0){
+  if((downflag == 0)&&(gx == altitude)){
     gxdown = true;
     gxflag = true;
+    gxup = false;
   }
   // exactli jumping
   if ((gxflag == true)||(keyfallflag == true)){
@@ -208,8 +228,9 @@ function loop() {
     }
   }
   // falling flag clearer
+  document.getElementById('con').innerHTML =downflag+ ' ' + altitude ;
   downflag = 0;
-
+//document.getElementById('con').innerHTML = keychar.join(' ');
 
 
   // collision map detection 
