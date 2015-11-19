@@ -56,6 +56,12 @@ for(i = 40; i <= 70; i++){
 
 }
 
+for(j = 80; j <= 150; j++ ){
+    collisionmapGX.push(j);
+  collisionmapGY.push(50);
+  withoutcol.push(50+''+j);
+}
+
 
 //main charecter ckass
 function hero(x, y) {
@@ -196,8 +202,6 @@ function loop() {
   for(i=0; i <= collisionmapGY.length; i++){
     if((withoutcol[i] == gy+''+gx)){
       downflag++;   
-    }else if((collisionmapGY[i] == gy)) {
-      //downflag++; 
     }
   }
   if((downflag == 0)&&(gx == altitude)){
